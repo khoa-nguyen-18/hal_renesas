@@ -23,6 +23,12 @@ extern "C" {
 
 #define LAYER3_SWICH_CFG_SKIP_PHY_LINK_SETUP 1
 
+#if defined(CONFIG_ETH_RENESAS_RA_PTP)
+#define LAYER3_SWITCH_CFG_GPTP_ENABLE 1
+#else
+#define LAYER3_SWITCH_CFG_GPTP_ENABLE 0
+#endif
+
 #ifdef __cplusplus
 }
 #endif

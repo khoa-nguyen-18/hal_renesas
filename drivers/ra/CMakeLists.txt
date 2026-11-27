@@ -238,6 +238,9 @@ zephyr_library_sources_ifdef(CONFIG_USE_RA_FSP_RMAC
 zephyr_library_sources_ifdef(CONFIG_USE_RA_FSP_LAYER3_SWITCH
 	fsp/src/r_layer3_switch/r_layer3_switch.c)
 
+zephyr_library_sources_ifdef(CONFIG_USE_RA_FSP_GPTP
+	fsp/src/r_gptp/r_gptp.c)
+
 zephyr_library_sources_ifdef(CONFIG_USE_RA_FSP_CRC
 	fsp/src/r_crc/r_crc.c)
 

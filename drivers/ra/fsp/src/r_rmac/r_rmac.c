@@ -1850,11 +1850,14 @@ static fsp_err_t r_rmac_get_tx_timestamp (rmac_instance_ctrl_t * p_instance_ctrl
     rmac_extended_cfg_t                * p_rmac_extended_cfg = (rmac_extended_cfg_t *) p_instance_ctrl->p_cfg->p_extend;
     layer3_switch_descriptor_queue_cfg_t queue_cfg           = p_rmac_extended_cfg->p_ts_queue->queue_cfg;
 
-    /* Search tx timestamp from ts reception descriptor that has same timestamp id and not empty. */
+    /* Search tx timestamp from ts reception descriptor that has same timestamp id and not empty.
+     * Ports using the same gPTP timer share the queue, so also match the port that took the timestamp. */
     for (uint8_t i = 0; i < (queue_cfg.array_length - 1); i++)
     {
         if ((LAYER3_SWITCH_DESCRIPTOR_TYPE_FEMPTY_ND !=
              queue_cfg.p_ts_descriptor_array[i].ts_reception_descriptor_result.dt) &&
+            (p_instance_ctrl->p_cfg->channel ==
+             queue_cfg.p_ts_descriptor_array[i].ts_reception_descriptor_result.dpn) &&
             (((p_instance_ctrl->tx_timestamp_seq_num - 1) & RMAC_TS_SEQUENCE_NUMBER_MASK) ==
              queue_cfg.p_ts_descriptor_array[i].ts_reception_descriptor_result.tsun))
         {
